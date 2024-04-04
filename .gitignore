@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Compiled JavaScript
+dist/
+
+# Environment Variables
+.env
+
+# Logs
+*.log
