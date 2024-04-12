@@ -2,8 +2,14 @@ import { Request, Response } from 'express';
 import * as AssistantService from '../services/assistantService';
 
 export async function createAssistant(req: Request, res: Response) {
+    const { assistantType } = req.body; // Expect HR, Marketing, IT, Accounting etc
+
+    if (!assistantType) {
+        return res.status(400).send({ error: "Assistant type is required." });
+    }
+    
     try {
-        const assistant = await AssistantService.createAssistant();
+        const assistant = await AssistantService.createAssistant(assistantType);
         res.json(assistant);
     } catch (error: unknown) {
         console.error("Error creating HR assistant", error)
@@ -43,7 +49,7 @@ export async function runThread(req: Request, res: Response) {
     if (!threadId || !assistantId) {
         return res.status(400).send({ error: 'Thread ID and Assistant ID are required.' });
     }
-    
+
     const result = await AssistantService.runThread(threadId, assistantId, instructions);
     if (result.success) {
       res.json(result.run);

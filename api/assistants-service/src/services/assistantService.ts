@@ -1,22 +1,28 @@
 import 'dotenv/config';
 import OpenAI from 'openai';
-import { hrAssistantPrompt } from '../initializationPrompts';
+import { ASSISTANT_PROMPTS } from '../initializationPrompts';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_SECRET_KEY });
 
-export async function createAssistant() {
-try {
-const assistant = await openai.beta.assistants.create({
-    instructions: hrAssistantPrompt,
-    name: "HR Employee Assistant",
-    model: "gpt-3.5-turbo",
-});
+export async function createAssistant(assistantType: string) {
+    const assistantDetails = ASSISTANT_PROMPTS[assistantType as keyof typeof ASSISTANT_PROMPTS];
 
-return assistant;
+    if (!assistantDetails) {
+        throw new Error("Invalid assistant type provided.");
+    }
 
-} catch (error) {
-console.error("Error creating HR Employee assistant:", error);
-}
+    try {
+        const assistant = await openai.beta.assistants.create({
+            instructions: assistantDetails.instructions,
+            name: assistantDetails.nameSuffix,
+            model: "gpt-3.5-turbo",
+        });
+        return {success: true, assistant};
+
+    } catch (error) {
+        console.error("Error creating HR Employee assistant:", error);
+        return { success: false, error};
+    }
 }
 
 export async function createThread() {
