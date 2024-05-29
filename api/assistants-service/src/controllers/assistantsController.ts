@@ -19,18 +19,6 @@ export async function createAssistant(req: Request, res: Response) {
     }   
 }
 
-export async function createThread(req: Request, res: Response) {
-    try {
-      const thread = await AssistantService.createThread();
-      res.json(thread);
-    } catch (error: unknown) {
-      console.error("Error creating thread:", error);
-      if (error instanceof Error) {
-        res.status(500).send(error.message);
-    }
-    }
-  }
-
 export async function addMessage(req: Request, res: Response) {
     const {threadId} = req.params;
     const {content} = req.body;

@@ -12,28 +12,22 @@ export async function createAssistant(assistantType: string) {
     }
 
     try {
+        const thread = await openai.beta.threads.create();
         const assistant = await openai.beta.assistants.create({
             instructions: assistantDetails.instructions,
             name: assistantDetails.nameSuffix,
             model: "gpt-3.5-turbo",
         });
-        return {success: true, assistant};
 
+        assistant.metadata = {
+            threadId: thread.id
+        }
+
+        return {success: true, assistant};
     } catch (error) {
         console.error("Error creating HR Employee assistant:", error);
         return { success: false, error};
     }
-}
-
-export async function createThread() {
-try {
-    const thread = await openai.beta.threads.create();
-
-    return thread;
-
-} catch (error) {
-    console.error("Error creating thread:", error);
-}
 }
 
 export async function addMessageToThread(threadId: string, content: string) {
