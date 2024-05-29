@@ -30,6 +30,28 @@ export async function createAssistant(assistantType: string) {
     }
 }
 
+export async function getAssistant(assistantId: string) {
+    try {
+        const assistant = await openai.beta.assistants.retrieve(assistantId);
+        return { success: true, assistant };
+    } catch (error) {
+        console.error("Error retrieving assistant:", error);
+        return { success: false, error };
+    }
+}
+
+export async function listAssistants(limit: number = 20) {
+    try {
+        const assistants = await openai.beta.assistants.list({
+            limit: limit
+        });
+        return { success: true, assistants: assistants.data };
+    } catch (error) {
+        console.error("Error listing assistants:", error);
+        return { success: false, error };
+    }
+}
+
 export async function addMessageToThread(threadId: string, content: string) {
 try {
     const message = await openai.beta.threads.messages.create(threadId, {
