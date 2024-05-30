@@ -19,17 +19,30 @@ export async function createAssistant(req: Request, res: Response) {
     }   
 }
 
-export async function createThread(req: Request, res: Response) {
-    try {
-      const thread = await AssistantService.createThread();
-      res.json(thread);
-    } catch (error: unknown) {
-      console.error("Error creating thread:", error);
-      if (error instanceof Error) {
-        res.status(500).send(error.message);
+export async function getAssistant(req: Request, res: Response) {
+    const { assistantId } = req.params; // Assuming the assistant ID is passed in the URL
+
+    const result = await AssistantService.getAssistant(assistantId);
+    if (result.success) {
+        res.json(result.assistant);
+    } else {
+        console.error("Failed to retrieve assistant:", result.error);
+        res.status(500).send("Failed to retrieve assistant.");
     }
+}
+
+export async function listAssistants(req: Request, res: Response): Promise<void> {
+    // Convert limit to number, provide default if undefined or invalid
+    const limit: number = parseInt(req.query.limit as string) || 20;
+
+    const result = await AssistantService.listAssistants(limit);
+    if (result.success) {
+        res.json(result.assistants);
+    } else {
+        console.error("Failed to list assistants:", result.error);
+        res.status(500).send("Failed to list assistants.");
     }
-  }
+}
 
 export async function addMessage(req: Request, res: Response) {
     const {threadId} = req.params;
