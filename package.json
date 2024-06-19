@@ -3,10 +3,6 @@
     "version": "1.0.0",
     "scripts": {
         "start:assistants-service": "cd api/assistants-service && npm start"
-        // "start:assistants-service": "cd api/assistants-service && npm start",
-        // "start:another-service": "cd path/to/another-service && npm start",
-        // "start:all": "concurrently \"npm run start:assistants-service\" \"npm run start:another-service\""
-          
     },
     "private": true,
     "devDependencies": {
