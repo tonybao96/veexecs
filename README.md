@@ -1,7 +1,7 @@
 # veexecs
 **AI-Driven Company Creation**
 
-Veexecs is a platform that leverages artificial intelligence to simulate running a company with various AI agents handling different business functions. This repository contains both the backend (API) and frontend components necessary to deploy and use the application locally.
+Veexecs is a platform that leverages the OpenAI API to simulate running a company with various AI agents handling different business functions. This repository contains both the backend (API) and frontend components necessary to deploy and use the application locally.
 
 ## Prerequisites
 
